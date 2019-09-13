@@ -1,1 +1,1 @@
-
+Here We are using some data to train the ANN
