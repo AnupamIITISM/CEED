@@ -29,7 +29,7 @@ def calc_candidate_fuel_cost(candidate, data_6_gen_df):
     # calculate the fuel cost
     fuel_cost = 0
     a_params = data_6_gen_df[data_6_gen_df.columns[0:3]]
-    for i in range(candidate.size()):
+    for i in range(candidate.size):
         pi = candidate[i]
         generator_cost = a_params.values[i][0]*pi*pi  + a_params.values[i][1]*pi + a_params.values[i][2]
         fuel_cost = fuel_cost + generator_cost
@@ -39,7 +39,7 @@ def calc_candidate_emission_cost(candidate, data_6_gen_df):
     # calculate the fuel emission
     emission_cost = 0
     alpha_params = data_6_gen_df[data_6_gen_df.columns[3:6]]
-    for i in range(candidate.size()):
+    for i in range(candidate.size):
         pi = candidate[i]
         generator_emi_cost = alpha_params.values[i][0]*pi*pi  + alpha_params.values[i][1]*pi + alpha_params.values[i][2]
         emission_cost = emission_cost + generator_emi_cost
