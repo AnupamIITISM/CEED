@@ -24,6 +24,10 @@ Created on Fri Sep 27 06:36:18 2019
 
 3. 
 """
+import pandas as pd
+import numpy as np
+import random
+
 # calculation of cost for individual candidate
 def calc_candidate_fuel_cost(candidate, data_6_gen_df):
     # calculate the fuel cost
@@ -45,9 +49,106 @@ def calc_candidate_emission_cost(candidate, data_6_gen_df):
         emission_cost = emission_cost + generator_emi_cost
     return emission_cost
 
-def calc_candidate_total_cost(candidate, data_6_gen_df, h_val):
+def calc_candidate_total_cost(candidate, data_6_gen_df, pdemand):
     fuel_cost = calc_candidate_fuel_cost(candidate, data_6_gen_df)
     emission_cost = calc_candidate_emission_cost(candidate, data_6_gen_df)
-    total_cost = fuel_cost + h_val*emission_cost
+    hi_val = calc_hi(data_6_gen_df, candidate, pdemand)
+    total_cost = fuel_cost + hi_val*emission_cost
     return total_cost
 
+def calc_hi(data_6_gen_df, candidate, pdemand):
+    a_params = data_6_gen_df[data_6_gen_df.columns[0:3]]
+    alpha_params = data_6_gen_df[data_6_gen_df.columns[3:6]]
+    pi_params = data_6_gen_df[data_6_gen_df.columns[6:8]]
+    h = np.array([0.0,0.0,0.0,0.0,0.0,0.0])
+    for i in range(6):
+        # Step 1
+        pimax = pi_params.values[i][1]
+        eipimax = a_params.values[i][0]*pimax*pimax  + a_params.values[i][1]*pimax + a_params.values[i][2]
+        fipimax = alpha_params.values[i][0]*pimax*pimax  + alpha_params.values[i][1]*pimax + alpha_params.values[i][2]
+        h[i] = fipimax/eipimax
+    # Step 2 and 3
+    h_copy = np.copy(h)
+    ptot = 0.0
+    idx = 0
+    while ptot < pdemand :
+        idx = np.argmin(h_copy)
+        ptot += pi_params.values[idx][1]
+        h_copy[idx] = 99999 # Set to a very high value
+    #Step 4
+    penalty_factor = h[idx]    
+    return penalty_factor
+
+# -----------------
+    
+def initiate_population_random(data_6_gen_df, pop_size, gen_no, pdemand):
+    pi_params = data_6_gen_df[data_6_gen_df.columns[6:8]]
+    initial_pop = np.zeros([pop_size, gen_no])
+    cand = np.zeros(gen_no)
+    for i in range(pop_size):
+        cand_created = False
+        while not cand_created:            
+            tot_load = 0.0
+            for j in range(gen_no-1):
+                pimin = pi_params.values[j][0]
+                pimax = pi_params.values[j][1]
+                cand[j] = random.randrange(pimin,pimax, step=1)
+                tot_load += cand[j]
+                if tot_load > pdemand:
+                    tot_load = 0.0
+                    cand_created = False
+                    break
+            last_gen_load = pdemand - tot_load
+            if last_gen_load > pi_params.values[gen_no-1][0] and last_gen_load < pi_params.values[gen_no-1][1]:
+                cand[gen_no-1] = last_gen_load
+                cand_created = True
+            else:
+                cand_created = False
+        
+        initial_pop[i] = cand[:]
+    return initial_pop
+            
+def calculate_population_cost(popln, data_6_gen_df, pdemand):
+    pop_size, gen_no = popln.shape
+    initial_pop_cost = np.zeros([pop_size, gen_no+1])
+    for i in range(pop_size):
+        for j in range(gen_no):
+            initial_pop_cost[i][j] = popln[i][j]
+        initial_pop_cost[i][gen_no] = calc_candidate_total_cost(popln[i], data_6_gen_df, pdemand)
+    return initial_pop_cost    
+        
+def sortCost(val): 
+    return val[-1]  
+
+def parent_selection(popln_cost):
+    popln_cost_list = popln_cost.tolist()
+    popln_cost_list.sort(key = sortCost)
+    selected_parents = popln_cost_list[:4]
+    selected_parents_arr = np.array(selected_parents)
+    return selected_parents_arr
+
+def best_solution(popln_cost):
+    popln_cost_list = popln_cost.tolist()
+    popln_cost_list.sort(key = sortCost)
+    minimum = popln_cost_list[0]
+    return minimum
+
+def whole_linear_crossover(parent_popln_cost, data_6_gen_df, pdemand):
+    child_popln_cost = np.copy(parent_popln_cost)
+    child_popln_cost_copy = np.copy(parent_popln_cost)
+    # Randomly choose 2 parents
+    i = random.randrange(0, 4, step=1)
+    j = random.randrange(0, 4, step=1)
+    while i != j:
+        j = random.randrange(0, 4, step=1)
+    child_popln_cost_copy[0] = 0.5 * parent_popln_cost[i] + 0.5 * parent_popln_cost[j] 
+    child_popln_cost_copy[1] = 1.5 * parent_popln_cost[i] - 0.5 * parent_popln_cost[j] 
+    child_popln_cost_copy[2] = -0.5 * parent_popln_cost[i] + 1.5 * parent_popln_cost[j]    
+    child_popln_cost_copy[3] = -0.5 * parent_popln_cost[i] + 1.5 * parent_popln_cost[j] 
+    
+    child_popln_cost_copy = calculate_population_cost(child_popln_cost_copy[:,:-1],data_6_gen_df, pdemand)
+    
+    
+    
+    
+    
