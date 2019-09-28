@@ -139,14 +139,73 @@ def whole_linear_crossover(parent_popln_cost, data_6_gen_df, pdemand):
     # Randomly choose 2 parents
     i = random.randrange(0, 4, step=1)
     j = random.randrange(0, 4, step=1)
-    while i != j:
+    while i == j:
         j = random.randrange(0, 4, step=1)
     child_popln_cost_copy[0] = 0.5 * parent_popln_cost[i] + 0.5 * parent_popln_cost[j] 
     child_popln_cost_copy[1] = 1.5 * parent_popln_cost[i] - 0.5 * parent_popln_cost[j] 
     child_popln_cost_copy[2] = -0.5 * parent_popln_cost[i] + 1.5 * parent_popln_cost[j]    
-    child_popln_cost_copy[3] = -0.5 * parent_popln_cost[i] + 1.5 * parent_popln_cost[j] 
+    child_popln_cost_copy[3] = 0.75 * parent_popln_cost[i] + .25 * parent_popln_cost[j] 
     
     child_popln_cost_copy = calculate_population_cost(child_popln_cost_copy[:,:-1],data_6_gen_df, pdemand)
+    child_popln_cost_copy_list = child_popln_cost_copy.tolist()
+    child_popln_cost_copy_list.sort(key = sortCost)
+    selected_child_pop = child_popln_cost_copy_list[:2]
+    selected_child_pop_arr = np.array(selected_child_pop)
+    
+    k = random.randrange(0, 4, step=1)
+    while k == i or k==j:
+        k = random.randrange(0, 4, step=1)
+    l = random.randrange(0, 4, step=1)
+    while l == i or l == j or l==k:
+        l = random.randrange(0, 4, step=1)
+        
+    child_popln_cost_copy[0] = 0.5 * parent_popln_cost[k] + 0.5 * parent_popln_cost[l] 
+    child_popln_cost_copy[1] = 1.5 * parent_popln_cost[k] - 0.5 * parent_popln_cost[l] 
+    child_popln_cost_copy[2] = -0.5 * parent_popln_cost[k] + 1.5 * parent_popln_cost[l]    
+    child_popln_cost_copy[3] = 0.75 * parent_popln_cost[k] + 0.25 * parent_popln_cost[l] 
+        
+    child_popln_cost_copy = calculate_population_cost(child_popln_cost_copy[:,:-1],data_6_gen_df, pdemand)
+    child_popln_cost_copy_list = child_popln_cost_copy.tolist()
+    child_popln_cost_copy_list.sort(key = sortCost)
+    selected_child_pop_l = child_popln_cost_copy_list[:2]
+    selected_child_pop_arr_1 = np.array(selected_child_pop_l)
+    
+    child_popln_cost[:2] = selected_child_pop_arr
+    child_popln_cost[2:] = selected_child_pop_arr_1
+    
+    return child_popln_cost
+    
+
+def mutation(child_popln_cost, data_6_gen_df, pdemand, prob_mutation):    
+    pi_params = data_6_gen_df[data_6_gen_df.columns[6:8]]
+    pop_size, gen_no = child_popln_cost.shape
+    gen_no = gen_no - 1
+    mutated_popln_cost = np.copy(child_popln_cost)
+    for pop in range(pop_size):
+        chance = random.randrange(0, 100, step=1)
+        #    Mutation can occour with the mutation probability 
+        if(chance < prob_mutation * 100):
+            cand = mutated_popln_cost[pop]
+            # Randomly select 2 generator
+            i = random.randrange(0, gen_no, step=1)
+            j = random.randrange(0, gen_no, step=1)
+            while i == j:
+                j = random.randrange(0, 4, step=1)
+            pi = cand[i]
+            pj = cand[j]
+            pimax = pi_params.values[i][1]
+            pjmin = pi_params.values[j][0]
+            delta_incr = min((pimax-pi),(pj-pjmin))*prob_mutation
+            pi = pi + delta_incr
+            pj = pj - delta_incr
+            cand[i] = pi
+            cand[j] = pj
+            mutated_popln_cost[pop] = cand
+            
+    mutated_popln_cost = calculate_population_cost(mutated_popln_cost[:,:-1],data_6_gen_df, pdemand)
+        
+    return mutated_popln_cost
+   
     
     
     
