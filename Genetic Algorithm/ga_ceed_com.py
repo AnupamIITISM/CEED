@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 pdemand = 800
 prob_mutation = 0.2
-no_of_itr = 100
+no_of_itr = 1000
 best_res = np.zeros([no_of_itr,2])
 #gen_no = 6
 population_size = 8

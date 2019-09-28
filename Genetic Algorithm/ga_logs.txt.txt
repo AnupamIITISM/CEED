@@ -1,0 +1,89 @@
+
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+Traceback (most recent call last):
+
+  File "<ipython-input-8-211d2cfafff2>", line 1, in <module>
+    runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+
+  File "C:\Users\drshr\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 705, in runfile
+    execfile(filename, namespace)
+
+  File "C:\Users\drshr\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 102, in execfile
+    exec(compile(f.read(), filename, 'exec'), namespace)
+
+  File "C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py", line 52, in <module>
+    child_parents[:half_param] = parents[-1]
+
+ValueError: could not broadcast input array from shape (7) into shape (4,6)
+
+
+
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+Traceback (most recent call last):
+
+  File "<ipython-input-9-211d2cfafff2>", line 1, in <module>
+    runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+
+  File "C:\Users\drshr\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 705, in runfile
+    execfile(filename, namespace)
+
+  File "C:\Users\drshr\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 102, in execfile
+    exec(compile(f.read(), filename, 'exec'), namespace)
+
+  File "C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py", line 52, in <module>
+    child_parents[:half_param] = parents[:-1]
+
+ValueError: could not broadcast input array from shape (3,7) into shape (4,6)
+
+
+
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[24.7340087890625, 32.88952148437501, 150.05505859374998, 167.66259765625003, 183.01123046875, 241.6475830078125]
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[25.35436248779297, 19.291730957031245, 119.92101776123046, 119.12759399414062, 264.901439086914, 251.40385571289067, 40699.475213095015]
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[54.89741210937497, 43.341845703125, 99.2686767578125, 104.08642578125, 295.51289062499995, 202.89274902343737, 41032.22149654517]
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[27.2530037462791, 9.990706132958532, 112.04603172231901, 130.57500668495572, 262.9615760317454, 257.1736756817446, 40680.77350182283]
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[27.52427475192634, 11.215609959481611, 128.21254102210594, 123.0641747814943, 271.5710098617378, 238.4123896232539, 40684.14300018633]
+
+￼
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[26.991029568785706, 9.945965070638545, 122.40576140658723, 130.943099190469, 253.5883899611894, 256.12575480233187, 40678.213828946835]
+
+￼
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[29.380279530404128, 10.002345710028935, 117.72963898558432, 135.450159420707, 262.4229013364046, 245.01467501686977, 40679.0122168108]
+
+￼
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[25.53547712375331, 9.897438458566754, 113.84434087461194, 137.36870267439548, 264.72356928192954, 248.6304715867437, 40683.04668940887]
+
+￼
+
+runfile('C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm/ga_ceed_com.py', wdir='C:/Users/drshr/Documents/GitHub/CEED/Genetic Algorithm')
+Reloaded modules: ga_ceed_6gen
+[28.025526339560507, 9.999999999997387, 123.02451964000568, 132.34840699446318, 260.2050470706988, 246.39649995527765, 40676.74887639902]
+
+￼
