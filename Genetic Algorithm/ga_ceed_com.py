@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 
 
-pdemand = 800
+pdemand = 700
 prob_mutation = 0.2
 no_of_itr = 1000
 best_res = np.zeros([no_of_itr,2])

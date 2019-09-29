@@ -14,7 +14,8 @@ import matplotlib.pyplot as plt
 #x_data = Variable(torch.Tensor([[1.0], [2.0], [3.0]])) 
 #y_data = Variable(torch.Tensor([[2.0,3.0], [4.0,6.0], [6.0,9.0]])) 
 
-data = pd.read_excel("data.xlsx")
+#data = pd.read_excel("data.xlsx")
+data = pd.read_excel("ga_data_4_ann.xlsx")
 x_data=data[data.columns[0:1]]
 x_data = Variable(torch.Tensor(x_data.values))
 
@@ -57,12 +58,18 @@ for epoch in range(no_of_itr):
     print('epoch {}, loss {}'.format(epoch, loss.item()))
     best_res[epoch][0] = epoch
     best_res[epoch][1] = loss.item()
-  
-new_var = Variable(torch.Tensor([[750.0]])) 
-pred_y = our_model(new_var) 
-print("predict (after training)", 4, our_model(new_var).data) 
 
-init_loss = 10000
+result_list = np.zeros([45, 8])  
+j =0
+for pdemand in range(400, 1300, 20):
+    new_var = Variable(torch.Tensor([[pdemand]])) 
+    pred_y = our_model(new_var) 
+    result_list[j][0] = pdemand
+    result_list[j][1:6] = pred_y.values
+    result_list[j][6] = pdemand - sum(pred_y.values)
+    print("predict (after training)", our_model(new_var).data) 
+
+init_loss = 100000
 best_loss = min(best_res[:][1])
 
 plt.plot(best_res)
