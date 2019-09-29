@@ -24,7 +24,7 @@ def sigmoidGradient(z):
 
 # function to compute cost and gradients
 def computeCost(X, y, Theta1, Theta2):
-    m, n = X.shape
+#    m, n = X.shape
     
     J = 0
     Theta1_grad = np.zeros(Theta1.shape)
@@ -33,7 +33,10 @@ def computeCost(X, y, Theta1, Theta2):
     # Forward Propagation:
     
     # input layer values (with bias unit)
-    a1 = np.concatenate((np.ones((m, 1)), X), axis=1)
+    #   a1 = np.concatenate((np.ones((m, 1)), X), axis=1)
+    a1 = np.zeros([2])
+    a1[0] = X
+    a1[1] = 1
     # calculating activity of hidden layer
     z2 = a1 * Theta1.T
     a, b = z2.shape
@@ -90,9 +93,9 @@ def gradientDescent(x, y, Theta1, Theta2, alpha, num_iters):
 
 def main():
     
-    input_layer_size = 2
+    input_layer_size = 1
     hidden_layer_size = 2
-    output_layer_size = 2
+    output_layer_size = 5
     
     # training data
     x = np.matrix([0.05, 0.1])
