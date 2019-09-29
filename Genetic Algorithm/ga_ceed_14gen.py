@@ -34,16 +34,20 @@ Created on Fri Sep 27 06:36:18 2019
 import pandas as pd
 import numpy as np
 import random
+import math
 
 # calculation of cost for individual candidate
 def calc_candidate_fuel_cost(candidate, param_for_n_generators):
     # calculate the fuel cost
     fuel_cost = 0
     a_params = param_for_n_generators[param_for_n_generators.columns[0:3]]
+    d_params = param_for_n_generators[param_for_n_generators.columns[8:10]]
+    pi_params = param_for_n_generators[param_for_n_generators.columns[6:8]]
     for i in range(candidate.size):
         pi = candidate[i]
         generator_cost = a_params.values[i][0]*pi*pi  + a_params.values[i][1]*pi + a_params.values[i][2]
-        fuel_cost = fuel_cost + generator_cost
+        valve_point_effect = np.abs(d_params.values[i][0]*math.sin(d_params.values[i][0] * (pi_params.values[i][0] - pi)))
+        fuel_cost = fuel_cost + generator_cost + valve_point_effect
     return fuel_cost
 
 def calc_candidate_emission_cost(candidate, param_for_n_generators):        
@@ -64,7 +68,7 @@ def calc_candidate_total_cost(candidate, param_for_n_generators, pdemand):
     return total_cost
 
 def calc_hi(param_for_n_generators, candidate, pdemand):
-    no_gen, = param_for_n_generators.shape
+    no_gen,no_param = param_for_n_generators.shape
     a_params = param_for_n_generators[param_for_n_generators.columns[0:3]]
     alpha_params = param_for_n_generators[param_for_n_generators.columns[3:6]]
     pi_params = param_for_n_generators[param_for_n_generators.columns[6:8]]
