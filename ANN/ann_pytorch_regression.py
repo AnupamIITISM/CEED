@@ -10,7 +10,9 @@ import torch
 from torch.autograd import Variable 
 import matplotlib.pyplot as plt
 
+import ga_ceed_6gen
 
+data_6_gen_df = pd.read_excel('ceed_data_6_gen.xlsx')
 #x_data = Variable(torch.Tensor([[1.0], [2.0], [3.0]])) 
 #y_data = Variable(torch.Tensor([[2.0,3.0], [4.0,6.0], [6.0,9.0]])) 
 
@@ -63,17 +65,26 @@ result_list = np.zeros([45, 8])
 j =0
 for pdemand in range(400, 1300, 20):
     new_var = Variable(torch.Tensor([[pdemand]])) 
-    pred_y = our_model(new_var) 
+    pred_y = our_model(new_var).data
     result_list[j][0] = pdemand
-    result_list[j][1:6] = pred_y.values
-    result_list[j][6] = pdemand - sum(pred_y.values)
+    print(pred_y)
+    pred_y_arr =  pred_y.detach().numpy()
+    print(pred_y_arr[0])
+    result_list[j][1:6] = pred_y_arr
+    result_list[j][6] = pdemand - sum(pred_y_arr[0])    
+    result_list[j][7] = ga_ceed_6gen.calc_candidate_total_cost(result_list[j][1:7], data_6_gen_df, pdemand)
     print("predict (after training)", our_model(new_var).data) 
+    j =j +1
 
-init_loss = 100000
-best_loss = min(best_res[:][1])
+#init_loss = 100000
+#best_loss = min(best_res[:][1])
 
-plt.plot(best_res)
-plt.ylim(best_loss, init_loss)
-plt.xlabel("Iteration")
-plt.ylabel("Loss")
-plt.show()    
+#plt.plot(best_res)
+#plt.ylim(best_loss, init_loss)
+#plt.xlabel("Iteration")
+#plt.ylabel("Loss")
+#plt.show()    
+    
+
+best_solution_df = pd.DataFrame(result_list)
+best_solution_df.to_excel('data_4m_ann_ga.xlsx')    
